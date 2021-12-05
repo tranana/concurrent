@@ -6,6 +6,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>concurrent-base-app</module>
+        <module>concurrent-base-api</module>
+        <module>concurrent-base-impl</module>
     </modules>
 
     <parent>
