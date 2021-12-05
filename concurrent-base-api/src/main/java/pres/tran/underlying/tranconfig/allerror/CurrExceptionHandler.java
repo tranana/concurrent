@@ -25,7 +25,6 @@ public class CurrExceptionHandler {
             ErrorResultDTO resultDTO = new ErrorResultDTO();
             resultDTO.setCurrResultDTO(CurrResultDTO.SECONDS_ERROR);
             resultDTO.setError(e.getMessage());
-
             return resultDTO;
         }
     }
