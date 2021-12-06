@@ -1,6 +1,6 @@
 package pres.tran.underlying.overall;
 
-import lombok.Data;
+
 import lombok.Getter;
 
 /**
@@ -9,11 +9,13 @@ import lombok.Getter;
 @Getter
 public class CurrException extends RuntimeException{
 
-    private ErrorResultDTO errorResultDTO;
+    /**
+     * 异常信息
+     */
+    private final ResultDTO resultDTO;
 
-    public CurrException(ErrorResultDTO errorResultDTO){
+    public CurrException(ResultDTO resultDTO){
         super();
-        this.errorResultDTO = errorResultDTO;
+        this.resultDTO = resultDTO;
     }
-
 }

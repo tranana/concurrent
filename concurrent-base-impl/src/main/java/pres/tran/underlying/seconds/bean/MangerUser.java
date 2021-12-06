@@ -34,10 +34,35 @@ public class MangerUser {
     @TableField("user_password")
     private String userPassword;
 
+    /**
+     * 头像
+     */
+    @TableField("user_head")
+    private String userHead;
+
+
+    /**
+     * 标识
+     */
+    @TableField("salt")
+    private String salt;
 
     /**
      * 状态
      */
     @TableField("user_start")
     private String userStart;
+
+    /**
+     * 注册时间
+     */
+    @TableField("create_time")
+    private String createTime;
+
+    /**
+     * 登录时间
+     */
+    @TableField("update_time")
+    private String updateTime;
+
 }

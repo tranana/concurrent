@@ -19,4 +19,10 @@ public class UserResultDTO {
      * 状态
      */
     private String start;
+
+    /**
+     * 头像
+     */
+    private String userHead;
+
 }

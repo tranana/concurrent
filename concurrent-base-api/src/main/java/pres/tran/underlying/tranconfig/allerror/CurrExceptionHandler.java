@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pres.tran.underlying.overall.CurrException;
 import pres.tran.underlying.overall.CurrResultDTO;
 import pres.tran.underlying.overall.ErrorResultDTO;
+import pres.tran.underlying.overall.ResultDTO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,17 +18,17 @@ import javax.servlet.http.HttpServletRequest;
 public class CurrExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
-    public ErrorResultDTO exceptionHandler(HttpServletRequest request, Exception e){
+    public ResultDTO exceptionHandler(HttpServletRequest request, Exception e){
+        ResultDTO resultDTO = null;
+        // 如果他是自定义的系统异常
         if (e instanceof CurrException){
-            CurrException currException = (CurrException)e;
-            return currException.getErrorResultDTO();
+            resultDTO = ((CurrException) e).getResultDTO();
         }else {
-            ErrorResultDTO resultDTO = new ErrorResultDTO();
-            resultDTO.setCurrResultDTO(CurrResultDTO.SECONDS_ERROR);
-            resultDTO.setError(e.getMessage());
-            return resultDTO;
+            // 打印异常
+            e.printStackTrace();
+            resultDTO = ErrorResultDTO.SECONDS_ERROR;
         }
+        return resultDTO;
     }
-
 
 }

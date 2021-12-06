@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/script/2.关系表/基础表/[用户表](manger_user).sql" dialect="MariaDB" />
+  </component>
+</project>
