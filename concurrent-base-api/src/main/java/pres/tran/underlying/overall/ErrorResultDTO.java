@@ -16,7 +16,6 @@ public class ErrorResultDTO<T> extends ResultDTO{
     // 全局异常处理
     public static ResultDTO SECONDS_ERROR = ErrorResultDTO.error(100000,"系统错误，请联系管理员");
 
-
     public ErrorResultDTO(Integer code, String resMsg, Integer start) {
         super(code,resMsg,start);
     }

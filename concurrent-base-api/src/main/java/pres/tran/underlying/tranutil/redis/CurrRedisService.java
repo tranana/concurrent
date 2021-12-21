@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pres.tran.underlying.tranconfig.redis.RedisPoolFactory;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.params.SetParams;
 
 @Service
 public class CurrRedisService {
@@ -21,11 +22,11 @@ public class CurrRedisService {
      * @param <T>
      * @return
      */
-    public <T> T get(String key,Class<T> clazz){
+    public <T> T get(CurrRedisPrefix currRedisPrefix, String key,Class<T> clazz){
         Jedis jedis = null;
         try {
             jedis = redisPoolFactory.JedisPoolFactory().getResource();
-            String value = jedis.get(key);
+            String value = jedis.get(currRedisPrefix.getCurrPrefix()+key);
             return stringToBean(value,clazz);
         }finally {
             resultsJedisPool(jedis);
@@ -40,18 +41,71 @@ public class CurrRedisService {
      * @param value
      * @return
      */
-    public <T> T set(String key,T value){
+    public <T> String set(CurrRedisPrefix currRedisPrefix,String key,T value){
         Jedis jedis = null;
+        String strValue = null;
         try {
             jedis = redisPoolFactory.JedisPoolFactory().getResource();
-            String strValue = beanToValue(value);
+            strValue = beanToValue(value);
             if (StrUtil.isNotBlank(strValue)){
-                jedis.set(key,strValue);
+                if (currRedisPrefix.expireSeconds() <= 0){
+                    jedis.set(currRedisPrefix.getCurrPrefix()+key,strValue);
+                }else {
+                    jedis.setex(currRedisPrefix.getCurrPrefix()+key,currRedisPrefix.expireSeconds(),strValue);
+                }
             }
         }finally {
             resultsJedisPool(jedis);
         }
-        return null;
+        return strValue;
+    }
+
+    /**
+     * key 是否存在
+     * @param currRedisPrefix
+     * @param key
+     * @return
+     */
+    public boolean exists(CurrRedisPrefix currRedisPrefix,String key){
+        Jedis jedis = null;
+        try {
+            jedis = redisPoolFactory.JedisPoolFactory().getResource();
+            return jedis.exists(currRedisPrefix.getCurrPrefix()+key);
+        }finally {
+            resultsJedisPool(jedis);
+        }
+    }
+
+    /**
+     * 增加 原子操作
+     * @param currRedisPrefix
+     * @param key
+     * @return
+     */
+    public Long incr(CurrRedisPrefix currRedisPrefix,String key){
+        Jedis jedis = null;
+        try {
+            jedis = redisPoolFactory.JedisPoolFactory().getResource();
+            return jedis.incr(currRedisPrefix.getCurrPrefix()+key);
+        }finally {
+            resultsJedisPool(jedis);
+        }
+    }
+
+    /**
+     * 减少 原子操作
+     * @param currRedisPrefix
+     * @param key
+     * @return
+     */
+    public Long decr(CurrRedisPrefix currRedisPrefix,String key){
+        Jedis jedis = null;
+        try {
+            jedis = redisPoolFactory.JedisPoolFactory().getResource();
+            return jedis.decr(currRedisPrefix.getCurrPrefix()+key);
+        }finally {
+            resultsJedisPool(jedis);
+        }
     }
 
     /**

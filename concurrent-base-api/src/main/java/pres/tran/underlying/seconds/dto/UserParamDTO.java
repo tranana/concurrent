@@ -15,4 +15,14 @@ public class UserParamDTO {
      */
     private String password;
 
+    /**
+     * 呢称
+     */
+    private String name;
+
+    /**
+     * 头像
+     */
+    private String userHead;
+
 }

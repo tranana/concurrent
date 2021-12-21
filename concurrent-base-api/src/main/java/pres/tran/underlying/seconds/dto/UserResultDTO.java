@@ -25,4 +25,8 @@ public class UserResultDTO {
      */
     private String userHead;
 
+    /**
+     * token 用于刷新redis中的token
+     */
+    private String token;
 }

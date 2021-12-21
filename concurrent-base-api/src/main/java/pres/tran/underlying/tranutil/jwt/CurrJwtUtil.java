@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import pres.tran.underlying.seconds.dto.UserResultDTO;
+import pres.tran.underlying.tranutil.redis.CurrRedisService;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -48,7 +49,7 @@ public class CurrJwtUtil {
     /**
      * token 的存活时间
      */
-    private static final long EXPIRATION = 1800L;
+    private static final long EXPIRATION = 86400L;
 
     /**
      * 创建token令牌 以下为参数都是自定义信息
@@ -78,6 +79,7 @@ public class CurrJwtUtil {
                         + EXPIRATION * 1000))//设置过期时间
                 .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
+
         return token;
     }
 
@@ -117,9 +119,9 @@ public class CurrJwtUtil {
     }
 
     // 获取token存储的用户
-    public static Object getUser(String token) {
+    public static <T>  T getUser(String token,Class<T> clazz) {
         String str = getTokenBody(token).get(USERINFO).toString();
-        return JSON.parseObject(str, Object.class);
+        return JSON.parseObject(str, clazz);
     }
 
     public static String refreshToken(String token) {

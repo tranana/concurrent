@@ -3,6 +3,7 @@ package pres.tran.underlying.tranconfig.allerror;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import pres.tran.underlying.overall.CurrException;
 import pres.tran.underlying.overall.CurrResultDTO;
 import pres.tran.underlying.overall.ErrorResultDTO;

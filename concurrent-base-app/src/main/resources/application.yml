@@ -1,9 +1,32 @@
+server:
+  port: 13251
+  error:
+    path: /error
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/concurrent?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false
     username: root
     password: root
+  rabbitmq:
+    #基本配置
+    addresses: 192.168.237.128:5672
+    username: admin
+    password: admin
+    virtual-host: /
+    connection-timeout: 15000
+    #消费端配置
+    listener:
+      simple:
+        #消费端
+        concurrency: 5
+        #最大消费端数
+        max-concurrency: 10
+        #自动签收auto  手动 manual
+        acknowledge-mode: manual
+        #限流（海量数据，同时只能过来一条）
+        prefetch: 1
+
 
 mybatis:
   configuration:
